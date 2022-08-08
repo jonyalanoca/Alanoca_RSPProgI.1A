@@ -1,0 +1,121 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct{
+	int id;
+	char nombre[20];
+	char tipo[20];
+	int edad;
+	float altura;
+}eMascota;
+eMascota* contructorParam(int id, char* nombre,char* tipo, int edad, float altura);
+eMascota* contructorBase(void);
+
+int mascota_setId(eMascota* this, int id);
+int mascota_setNombre(eMascota* this, char* nombre);
+int mascota_setTipo(eMascota* this, char* tipo);
+int mascota_setEdad(eMascota* this , int edad);
+int mascota_setAltura(eMascota* this, float altura);
+
+
+int guardarEnTexto(eMascota* this, char* path);
+int guardarEnBinario(eMascota* this, char* path);
+int main(void) {
+	setbuf(stdout,NULL);
+	eMascota* mascota1;
+	mascota1=contructorParam(1,"perro","caniche",7,0.5);
+	printf("%d %s %s %d %f",mascota1->id, mascota1->nombre, mascota1->tipo, mascota1->edad, mascota1->altura);
+	guardarEnTexto(mascota1,"jony.txt");
+	guardarEnBinario(mascota1,"jony.bin");
+	return EXIT_SUCCESS;
+}
+eMascota* contructorBase(void){
+	eMascota* aux;
+	aux=(eMascota*)malloc(sizeof(eMascota));
+	if(aux==NULL){
+		printf("No se puedo dar memoria.\n");
+		exit(1);
+	}
+
+
+	return aux;
+}
+eMascota* contructorParam(int id, char* nombre,char* tipo, int edad, float altura){
+	eMascota* aux;
+	aux=contructorBase();
+	mascota_setId(aux,id);
+	mascota_setNombre(aux,nombre);
+	mascota_setTipo(aux,tipo);
+	mascota_setEdad(aux,edad);
+	mascota_setAltura(aux,altura);
+	return aux;
+}
+int mascota_setId(eMascota* this, int id){
+	int todoOK=-1;
+	if(this!=NULL && id>0){
+		this->id=id;
+		todoOK=0;
+	}
+	return todoOK;
+}
+int mascota_setNombre(eMascota* this, char* nombre){
+	int todoOK=-1;
+	if(this!=NULL && nombre!=NULL){
+		strcpy(this->nombre,nombre);
+		todoOK=0;
+	}
+	return todoOK;
+}
+int mascota_setTipo(eMascota* this, char* tipo){
+	int todoOK=-1;
+	if(this!=NULL && tipo!=NULL){
+		strcpy(this->tipo,tipo);
+		todoOK=0;
+	}
+	return todoOK;
+}
+int mascota_setEdad(eMascota* this , int edad){
+	int todoOK=-1;
+	if(this!=NULL &&edad){
+		this->edad=edad;
+		todoOK=0;
+	}
+	return todoOK;
+}
+int mascota_setAltura(eMascota* this, float altura){
+	int todoOK=-1;
+	if(this!=NULL &&altura>0){
+		this->altura=altura;
+		todoOK=0;
+	}
+	return todoOK;
+}
+
+
+
+
+int guardarEnTexto(eMascota* this, char* path){
+	int todoOK=-1;
+	if(this!=NULL && path !=NULL){
+		FILE* file=fopen(path, "w");
+		if(file!=NULL){
+			fprintf(file,"%d,%s,%s,%d,%.2f\n",this->id,this->nombre, this->tipo, this->edad, this->altura);
+		}
+		fclose(file);
+		todoOK=0;
+	}
+	return todoOK;
+}
+int guardarEnBinario(eMascota* this, char* path){
+	int todoOK=-1;
+	if(this!=NULL && path !=NULL){
+		FILE* file=fopen(path, "wb");
+		if(file!=NULL){
+			fwrite(this,sizeof(eMascota),1,file);
+		}
+
+		fclose(file);
+		todoOK=0;
+	}
+	return todoOK;
+}

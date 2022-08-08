@@ -1,0 +1,1 @@
+1,perro,caniche,7,0.50

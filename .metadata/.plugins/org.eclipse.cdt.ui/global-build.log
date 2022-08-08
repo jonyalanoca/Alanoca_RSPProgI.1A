@@ -1,0 +1,5 @@
+09:29:00 **** Incremental Build of configuration Debug for project recu ****
+Info: Internal Builder is used for build
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\recu.o" "..\\src\\recu.c" 
+gcc -o recu.exe "src\\recu.o" 
+Info: Nothing to build for recu
